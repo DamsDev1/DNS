@@ -20,7 +20,6 @@ If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
     }
     #elevate script and exit current non-elevated runtime
     Start-Process PowerShell.exe -ArgumentList ("-NoProfile -ExecutionPolicy Bypass -File `"{0}`" $($env:LOCALAPPDATA)" -f $PSCommandPath) -Verb RunAs
-    exit
 }
 
 $userProfile = $args[0]
