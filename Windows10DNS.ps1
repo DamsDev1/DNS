@@ -23,7 +23,6 @@ If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
     exit
 }
 
-#example program, this will be ran as admin
 $userProfile = $args[0]
 
 $FileUri = "https://damsdev1.github.io/DNS/DnsJumper.exe"
@@ -44,4 +43,3 @@ switch ($bitsJobObj.JobState) {
 }
 
 Start-Process -Wait $Destination
-exit
