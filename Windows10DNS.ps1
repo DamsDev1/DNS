@@ -1,5 +1,3 @@
-$Title = "DnsJumper"
-$host.UI.RawUI.WindowTitle = $Title
 If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]'Administrator')) {
     $title = ''
     $question = 'This script need to Run as an Administrator in order to continue.
@@ -25,13 +23,11 @@ If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
     exit
 }
 
-Start-Sleep 10
-
 #example program, this will be ran as admin
 $userProfile = $args[0]
 
 $FileUri = "https://damsdev1.github.io/DNS/DnsJumper.exe"
-$Destination = "$($userProfile)\temp\dnsjumper-4.exe"
+$Destination = "$($userProfile)\Temp\dnsjumper.exe"
 
 $bitsJobObj = Start-BitsTransfer $FileUri -Destination $Destination
 
