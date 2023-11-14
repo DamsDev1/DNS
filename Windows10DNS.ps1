@@ -1,3 +1,5 @@
+$Title = "DnsJumper"
+$host.UI.RawUI.WindowTitle = $Title
 If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]'Administrator')) {
     $title = ''
     $question = 'This script need to Run as an Administrator in order to continue.
@@ -13,7 +15,7 @@ If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
     $choices.Add((New-Object Management.Automation.Host.ChoiceDescription -ArgumentList '&Yes'))
     $choices.Add((New-Object Management.Automation.Host.ChoiceDescription -ArgumentList '&No'))
 
-    $decision = $Host.UI.PromptForChoice($title, $question, $choices, 1)
+    $decision = $Host.UI.PromptForChoice($title, $question, $choices, 0)
     if ($decision -eq 1) {
         Write-Host 'This script need to Run as an Administrator, exiting.'
         exit
@@ -33,5 +35,5 @@ $Destination = "$($userProfile)\temp\dnsjumper-4.exe"
 
 Invoke-WebRequest -Uri $FileUri -OutFile $Destination
 
-# Start-Process -Wait $Destination
-# exit
+Start-Process -Wait $Destination
+exit
