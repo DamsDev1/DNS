@@ -22,24 +22,10 @@ If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
     Start-Process PowerShell.exe -ArgumentList ("-NoProfile -ExecutionPolicy Bypass -File `"{0}`"" -f $PSCommandPath) -Verb RunAs
     exit
 } else {
-    $userProfile = $args[0]
-
     $FileUri = "https://raw.githubusercontent.com/DamsDev1/DNS/main/DnsJumper.exe"
     $Destination = "$env:SystemRoot\Temp\dnsjumper.exe"
 
-    $bitsJobObj = Start-BitsTransfer $FileUri -Destination $Destination
-
-    switch ($bitsJobObj.JobState) {
-
-        'Transferred' {
-            Complete-BitsTransfer -BitsJob $bitsJobObj
-            break
-        }
-
-        'Error' {
-            throw 'Error downloading'
-        }
-    }
+    Invoke-WebRequest -Uri $FileUri -OutFile $Destination
 
     Start-Process -Wait $Destination
     Get-Item "$env:SystemRoot\Temp\dnsjumper.exe" | Remove-Item
