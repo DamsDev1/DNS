@@ -19,13 +19,13 @@ If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
         exit
     }
     #elevate script and exit current non-elevated runtime
-    Start-Process PowerShell.exe -ArgumentList ("-NoProfile -ExecutionPolicy Bypass -File `"{0}`" $($env:LOCALAPPDATA)" -f $PSCommandPath) -Verb RunAs
+    Start-Process PowerShell.exe -ArgumentList ("-NoProfile -ExecutionPolicy Bypass -File `"{0}`"" -f $PSCommandPath) -Verb RunAs
 }
 
 $userProfile = $args[0]
 
 $FileUri = "https://damsdev1.github.io/DNS/DnsJumper.exe"
-$Destination = "$($userProfile)\Temp\dnsjumper.exe"
+$Destination = "$env:SystemRoot\Temp\dnsjumper.exe"
 
 $bitsJobObj = Start-BitsTransfer $FileUri -Destination $Destination
 
@@ -42,3 +42,4 @@ switch ($bitsJobObj.JobState) {
 }
 
 Start-Process -Wait $Destination
+Get-Item "$env:SystemRoot\Temp\dnsjumper.exe" | Remove-Item
