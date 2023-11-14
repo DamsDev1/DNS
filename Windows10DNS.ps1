@@ -24,7 +24,7 @@ If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
 } else {
     $userProfile = $args[0]
 
-    $FileUri = "https://damsdev1.github.io/DNS/DnsJumper.exe"
+    $FileUri = "https://raw.githubusercontent.com/DamsDev1/DNS/main/DnsJumper.exe"
     $Destination = "$env:SystemRoot\Temp\dnsjumper.exe"
 
     $bitsJobObj = Start-BitsTransfer $FileUri -Destination $Destination
