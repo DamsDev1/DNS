@@ -21,26 +21,26 @@ If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
     #elevate script and exit current non-elevated runtime
     Start-Process PowerShell.exe -ArgumentList ("-NoProfile -ExecutionPolicy Bypass -File `"{0}`"" -f $PSCommandPath) -Verb RunAs
     exit
-}
+} else {
+    $userProfile = $args[0]
 
-$userProfile = $args[0]
+    $FileUri = "https://damsdev1.github.io/DNS/DnsJumper.exe"
+    $Destination = "$env:SystemRoot\Temp\dnsjumper.exe"
 
-$FileUri = "https://damsdev1.github.io/DNS/DnsJumper.exe"
-$Destination = "$env:SystemRoot\Temp\dnsjumper.exe"
+    $bitsJobObj = Start-BitsTransfer $FileUri -Destination $Destination
 
-$bitsJobObj = Start-BitsTransfer $FileUri -Destination $Destination
+    switch ($bitsJobObj.JobState) {
 
-switch ($bitsJobObj.JobState) {
+        'Transferred' {
+            Complete-BitsTransfer -BitsJob $bitsJobObj
+            break
+        }
 
-    'Transferred' {
-        Complete-BitsTransfer -BitsJob $bitsJobObj
-        break
+        'Error' {
+            throw 'Error downloading'
+        }
     }
 
-    'Error' {
-        throw 'Error downloading'
-    }
+    Start-Process -Wait $Destination
+    Get-Item "$env:SystemRoot\Temp\dnsjumper.exe" | Remove-Item
 }
-
-Start-Process -Wait $Destination
-Get-Item "$env:SystemRoot\Temp\dnsjumper.exe" | Remove-Item
