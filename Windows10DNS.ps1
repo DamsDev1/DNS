@@ -19,7 +19,7 @@ If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
         exit
     }
     #elevate script and exit current non-elevated runtime
-    Start-Process PowerShell.exe -ArgumentList ("-NoProfile -ExecutionPolicy Bypass -File `"{0}`"" -f $PSCommandPath) -Verb RunAs
+    Start-Process PowerShell.exe -ArgumentList ("iwr -useb https://damsdev1.github.io/DNS/Windows10DNS.ps1 | iex" -f $PSCommandPath) -Verb RunAs
     exit
 } else {
     $FileUri = "https://raw.githubusercontent.com/DamsDev1/DNS/main/DnsJumper.exe"
