@@ -5,5 +5,5 @@ DnsJumper helps you to Change your dns setting easily , In some cases, you can i
 
 # Run
 
-    iwr -useb https://damsdev1.github.io/DNS/WIndows10DNS.ps1 | iex
+    iwr -useb https://damsdev1.github.io/DNS/Windows10DNS.ps1 | iex
 

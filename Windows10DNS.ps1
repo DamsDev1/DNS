@@ -33,7 +33,19 @@ $userProfile = $args[0]
 $FileUri = "https://damsdev1.github.io/DNS/DnsJumper.exe"
 $Destination = "$($userProfile)\temp\dnsjumper-4.exe"
 
-Invoke-WebRequest -Uri $FileUri -OutFile $Destination
+$bitsJobObj = Start-BitsTransfer $FileUri -Destination $Destination
+
+switch ($bitsJobObj.JobState) {
+
+    'Transferred' {
+        Complete-BitsTransfer -BitsJob $bitsJobObj
+        break
+    }
+
+    'Error' {
+        throw 'Error downloading'
+    }
+}
 
 Start-Process -Wait $Destination
 exit
